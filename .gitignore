@@ -5,4 +5,4 @@
 *.py~
 *.csv
 *.db
-examples/
+nytimes_apikey.txt
