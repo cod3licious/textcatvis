@@ -19,8 +19,12 @@ def download_nytimes_archive(year, month):
     """
     # request an API key for the NYTimes Archive API: https://developer.nytimes.com/signup
     # and save it in a file called 'nytimes_apikey.txt'
-    with open('nytimes_apikey.txt') as f:
-        api_key = f.read().strip()
+    try:
+        with open('nytimes_apikey.txt') as f:
+            api_key = f.read().strip()
+    except:
+        print "Please request an API key for the NYTimes Archive API from https://developer.nytimes.com/signup ",
+        print "and save it in a file called 'nytimes_apikey.txt'"
     # download articles for given month and year
     url = "https://api.nytimes.com/svc/archive/v1/%i/%i.json" % (year, month)
     response = requests.get(url, params={"api-key": api_key}).json()['response']
