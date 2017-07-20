@@ -3,7 +3,7 @@
 Faced with a collection of texts, sorted into the categories "C1"-"C23" and no idea what those could be? Got a dump of text documents and need to figure out what they are about and which of those you should have a closer look at?
 Code is here to help!
 
-This repository contains tools, which help in getting a quick overview of a text dataset by creating word clouds of the relevant words for each class or identified cluster as well as code to highlight these words in the individual texts, e.g. to better understand classifier decisions. Further details can be found in the corresponding paper (short and long).
+This repository contains tools, which help in getting a quick overview of a text dataset by creating word clouds of the relevant words for each class or identified cluster as well as code to highlight these words in the individual texts, e.g. to better understand classifier decisions. Further details can be found in the corresponding paper ([short](http://arxiv.org/abs/1707.06100) and [long](http://arxiv.org/abs/1707.05261)).
 
 ### quick start
 To **install**, download this repository and make sure the dependencies listed below are installed as well (or available somewhere in your pythonpath or in the same folder as this code).
