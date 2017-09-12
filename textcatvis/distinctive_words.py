@@ -1,4 +1,5 @@
 from __future__ import division
+from __future__ import print_function
 import sys
 import re
 import numpy as np
@@ -52,18 +53,18 @@ def get_distinctive_words(textdict, doccats, distinctive_fun=distinctive_fun_quo
           to get the 10 most distinguishing words for that category
     """
     # transform all texts into sets of preprocessed words and bigrams
-    print "computing features"
+    print("computing features")
     ft = FeatureTransform(norm='max', weight=False, renorm=False, identify_bigrams=True, norm_num=False)
     docfeats = ft.texts2features(textdict)
     #docfeats = {did: set(docfeats[did].keys()) for did in docfeats}
     # invert this dict to get for every word the documents it occurs in
     # word_dids = {word: set(dids) for word, dids in invert_dict1(docfeats).iteritems()}
     # invert the doccats dict to get for every category a list of documents belonging to it
-    cats_dids = {cat: set(dids) for cat, dids in invert_dict0(doccats).iteritems()}
+    cats_dids = {cat: set(dids) for cat, dids in invert_dict0(doccats).items()}
     # get a list of all words
-    word_list = invert_dict2(docfeats).keys()
+    word_list = list(invert_dict2(docfeats).keys())
     # count the true positives for every word and category
-    print "computing tpr for all words and categories"
+    print("computing tpr for all words and categories")
     tpc_words = {}
     for word in word_list:
         tpc_words[word] = {}
@@ -76,7 +77,7 @@ def get_distinctive_words(textdict, doccats, distinctive_fun=distinctive_fun_quo
     # for every category, compute a score for every word
     distinctive_words = {}
     for cat in cats_dids:
-        print "computing distinctive words for category %r" % cat
+        print("computing distinctive words for category %r" % cat)
         distinctive_words[cat] = {}
         # compute a score for every word
         for word in word_list:

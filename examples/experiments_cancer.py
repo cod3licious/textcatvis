@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from datasets.cancer_papers.load_cancer import articles2dict
-from visualize_relevantwords import visualize_tfidf, visualize_distinctive, visualize_clf
-from check_query import *
+from textcatvis.visualize_relevantwords import visualize_tfidf, visualize_distinctive, visualize_clf
+from textcatvis.check_query import *
 
 if __name__ == '__main__':
     # do experiments for cancer type

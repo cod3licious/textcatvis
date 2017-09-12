@@ -1,3 +1,8 @@
+from __future__ import print_function
+from __future__ import division
+from builtins import str
+from builtins import range
+from past.builtins import basestring
 import re
 import numpy as np
 import matplotlib.pyplot as plt
@@ -64,7 +69,7 @@ def vis_occurrences(results, bars=False, queries=[]):
     """
     if not queries:
         queries = sorted(results.keys())
-        print queries
+        print(queries)
     categories = sorted(results[queries[0]].keys())
     cat_names = [str(c).replace('_', '\n') for c in categories]
     r = 90 if max([len(c) for c in cat_names]) > 6 else 0
@@ -73,7 +78,7 @@ def vis_occurrences(results, bars=False, queries=[]):
     if not bars:
         for i, q in enumerate(queries):
             plt.plot([results[q][cat] for cat in categories], color=colors[i], label=q)
-        plt.xticks(range(len(categories))[::max(1, len(categories)/10)], cat_names[::max(1, len(categories)/10)], rotation=r)
+        plt.xticks(list(range(len(categories)))[::max(1, len(categories)//10)], cat_names[::max(1, len(categories)//10)], rotation=r)
         plt.xlim([0, len(categories)-1])
     else:
         ind = np.arange(len(categories))

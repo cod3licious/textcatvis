@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from __future__ import division
 import codecs
 import re
 import os
@@ -111,7 +112,7 @@ def scores2html(text, scores, fname='testfile', metainf='', highlight_oov=False)
 
     # normalize score by absolute max value
     if isinstance(scores, dict):
-        N = np.max(np.abs(scores.values()))
+        N = np.max(np.abs(list(scores.values())))
         scores_dict = {word: scores[word] / N for word in scores}
         # transform dict into word list with scores
         scores = []

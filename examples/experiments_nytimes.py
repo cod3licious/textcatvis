@@ -1,10 +1,10 @@
-import urllib
+from __future__ import print_function
 import requests
 import matplotlib.pyplot as plt
 from nlputils.dict_utils import invert_dict0
-from visualize_relevantwords import visualize_tfidf, visualize_distinctive, visualize_clf
-from cluster import cluster_texts
-from check_query import *
+from textcatvis.visualize_relevantwords import visualize_tfidf, visualize_distinctive, visualize_clf
+from textcatvis.cluster import cluster_texts
+from textcatvis.check_query import *
 
 
 def download_nytimes_archive(year, month):
@@ -23,8 +23,8 @@ def download_nytimes_archive(year, month):
         with open('nytimes_apikey.txt') as f:
             api_key = f.read().strip()
     except:
-        print "Please request an API key for the NYTimes Archive API from https://developer.nytimes.com/signup ",
-        print "and save it in a file called 'nytimes_apikey.txt'"
+        print("Please request an API key for the NYTimes Archive API from https://developer.nytimes.com/signup ", end=' ')
+        print("and save it in a file called 'nytimes_apikey.txt'")
     # download articles for given month and year
     url = "https://api.nytimes.com/svc/archive/v1/%i/%i.json" % (year, month)
     response = requests.get(url, params={"api-key": api_key}).json()['response']
@@ -112,10 +112,10 @@ if __name__ == '__main__':
     cluster_docs = invert_dict0(clusters)
     _ = visualize_distinctive(textdict, clusters, subdir_wc='results/nytimes_wc_distinctive_clusters')
     for c in sorted(cluster_docs, key=lambda x: len(cluster_docs[x]), reverse=True):
-        print "#### %i documents in cluster %i" % (len(cluster_docs[c]), c)
+        print("#### %i documents in cluster %i" % (len(cluster_docs[c]), c))
         if not c == -1:
             for did in cluster_docs[c]:
-                print textdict[did].split("\n")[0]
+                print(textdict[did].split("\n")[0])
     ### experiment 3: check the occurrences of some specific words
     textdict, doccats = get_articles('2016-12-26', '2017-01-22')
     queries = [check_or('and', 'or', 'the'), 'tuesday', 'trump', 'obama', check_and('italy', 'avalanche')]

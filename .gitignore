@@ -6,3 +6,8 @@
 *.csv
 *.db
 nytimes_apikey.txt
+dist/
+build/
+textcatvis.egg-info/
+MANIFEST.in
+setup.py

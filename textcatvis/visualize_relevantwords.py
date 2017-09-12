@@ -1,4 +1,8 @@
 from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from builtins import zip
 import os
 import random
 import numpy as np
@@ -8,8 +12,8 @@ from sklearn.linear_model import LogisticRegression as logreg
 import sklearn.metrics as skmet
 from nlputils.features import FeatureTransform, features2mat
 from nlputils.dict_utils import invert_dict0, combine_dicts, select_copy
-from vis_utils import create_wordcloud, scores2html
-from distinctive_words import get_distinctive_words
+from .vis_utils import create_wordcloud, scores2html
+from .distinctive_words import get_distinctive_words
 
 
 def select_subset(textdict, doccats, visids=[]):
@@ -28,9 +32,9 @@ def select_subset(textdict, doccats, visids=[]):
     if not len(visids):
         visids = docids[:1000]
     elif len(visids) > 1000:
-        print "WARNING: creating visualizations for %i, i.e. more than 1000 documents can be slow!" % len(visids)
+        print("WARNING: creating visualizations for %i, i.e. more than 1000 documents can be slow!" % len(visids))
         if len(visids) > 10000:
-            print "You don't know what you're doing....Truncating visids to 5000 examples."
+            print("You don't know what you're doing....Truncating visids to 5000 examples.")
             visids = visids[:5000]
     # select subsets of examples to speed up the computations
     if len(docids) > 10000:
@@ -59,18 +63,18 @@ def visualize_tfidf(textdict, doccats, create_html=True, visids=[], subdir_html=
     Returns:
         relevant_words: dict with {category: {word: relevancy score}}
     """
-    print "possibly selecting subset of 10000 examples"
+    print("possibly selecting subset of 10000 examples")
     textdict, doccats, visids = select_subset(textdict, doccats, visids)
-    print "transforming text into features"
+    print("transforming text into features")
     # we can identify bigrams if we don't have to create htmls
     ft = FeatureTransform(norm='max', weight=True, renorm='max', identify_bigrams=not create_html, norm_num=False)
     docfeats = ft.texts2features(textdict)
     # maybe highlight the tf-idf scores in the documents
     if create_html:
-        print "creating htmls for %i of %i documents" % (len(visids), len(docfeats))
+        print("creating htmls for %i of %i documents" % (len(visids), len(docfeats)))
         for i, did in enumerate(visids):
             if not i % 100:
-                print "progress: at %i of %i documents" % (i, len(visids))
+                print("progress: at %i of %i documents" % (i, len(visids)))
             metainf = did + '\n' + 'True Class: %s\n' % doccats[did]
             name = did + '_' + doccats[did]
             scores2html(textdict[did], docfeats[did], os.path.join(subdir_html, name.replace(' ', '_').replace('/', '_')), metainf)
@@ -79,7 +83,7 @@ def visualize_tfidf(textdict, doccats, create_html=True, visids=[], subdir_html=
     # create word clouds for each category by summing up tfidf scores
     scores_collected = {}
     for cat in catdocs:
-        print "creating word cloud for category %r with %i samples" % (cat, len(catdocs[cat]))
+        print("creating word cloud for category %r with %i samples" % (cat, len(catdocs[cat])))
         scores_collected[cat] = {}
         for did in catdocs[cat]:
             scores_collected[cat] = combine_dicts(scores_collected[cat], docfeats[did], sum)
@@ -105,7 +109,7 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
     Returns:
         relevant_words: dict with {category: {word: relevancy score}}
     """
-    print "possibly selecting subset of 10000 examples"
+    print("possibly selecting subset of 10000 examples")
     textdict, doccats, visids = select_subset(textdict, doccats, visids)
     # training examples are all but visids
     trainids = list(set(textdict.keys()).difference(set(visids)))
@@ -116,7 +120,7 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
     else:
         renorm = 'length'
         clf = LinearSVC(C=10., class_weight='balanced', random_state=1)
-    print "transforming text into features"
+    print("transforming text into features")
     # make features (we can use bigrams if we don't have to create htmls)
     ft = FeatureTransform(norm='max', weight=True, renorm=renorm, identify_bigrams=not create_html, norm_num=False)
     docfeats = ft.texts2features(textdict, fit_ids=trainids)
@@ -124,11 +128,11 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
     featmat_train, featurenames = features2mat(docfeats, trainids)
     y_train = [doccats[tid] for tid in trainids]
     # fit classifier
-    print "training classifier"
+    print("training classifier")
     clf.fit(featmat_train, y_train)
     del featmat_train
     # make test featmat and label vector
-    print "making predictions"
+    print("making predictions")
     featmat_test, featurenames = features2mat(docfeats, visids, featurenames)
     # get actual classification results for all test samples
     predictions = clf.decision_function(featmat_test)
@@ -137,16 +141,16 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
     # report classification accuracy
     if len(clf.classes_) > 2:
         f1_micro, f1_macro = skmet.f1_score(y_true, y_pred, average='micro'), skmet.f1_score(y_true, y_pred, average='macro')
-        print "F1 micro-avg: %.3f, F1 macro-avg: %.3f" % (f1_micro, f1_macro)
-    print "Accuracy: %.3f" % skmet.accuracy_score(y_true, y_pred)
+        print("F1 micro-avg: %.3f, F1 macro-avg: %.3f" % (f1_micro, f1_macro))
+    print("Accuracy: %.3f" % skmet.accuracy_score(y_true, y_pred))
     # create the visualizations
-    print "creating the visualization for %i test examples" % len(visids)
+    print("creating the visualization for %i test examples" % len(visids))
     # collect all the accumulated scores to later create a wordcloud
     scores_collected = np.zeros((len(featurenames), len(clf.classes_)))
     # run through all test documents
     for i, tid in enumerate(visids):
         if not i % 100:
-            print "progress: at %i of %i test examples" % (i, len(visids))
+            print("progress: at %i of %i test examples" % (i, len(visids)))
         # transform the feature vector into a diagonal matrix
         feat_vec = lil_matrix((len(featurenames), len(featurenames)), dtype=float)
         feat_vec.setdiag(featmat_test[i, :].toarray().flatten())
@@ -154,7 +158,7 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
         # get the scores (i.e. before summing up)
         scores = clf.decision_function(feat_vec)
         # adapt for the intercept
-        scores -= (1. - 1. / len(featurenames)) * clf.intercept_
+        scores -= (1. - 1./len(featurenames)) * clf.intercept_
         # when creating the html visualization we want the words speaking for the prediction
         # but when creating the word cloud, we want the words speaking for the actual class
         metainf = tid + '\n'
@@ -164,12 +168,12 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
                 # we want the scores which speak for the class - for the negative class,
                 # the sign needs to be reversed
                 scores *= -1.
-            scores_dict = dict(zip(featurenames, scores))
+            scores_dict = dict(list(zip(featurenames, scores)))
             metainf += 'True Class: %s\n' % doccats[tid]
             metainf += 'Predicted Class: %s  (Score: %.4f)' % (predictions_labels[i], predictions[i])
             scores_collected[:, clf.classes_ == doccats[tid]] += np.array([scores]).T
         else:
-            scores_dict = dict(zip(featurenames, scores[:, clf.classes_ == predictions_labels[i]][:, 0]))
+            scores_dict = dict(list(zip(featurenames, scores[:, clf.classes_ == predictions_labels[i]][:, 0])))
             metainf += 'True Class: %s  (Score: %.4f)\n' % (doccats[tid], predictions[i, clf.classes_ == doccats[tid]][0])
             metainf += 'Predicted Class: %s  (Score: %.4f)' % (predictions_labels[i], predictions[i, clf.classes_ == predictions_labels[i]][0])
             scores_collected[:, clf.classes_ == doccats[tid]] += scores[:, clf.classes_ == doccats[tid]]
@@ -182,11 +186,11 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
                 name = 'error_'
             name += tid + '_' + doccats[tid]
             scores2html(textdict[tid], scores_dict, os.path.join(subdir_html, name.replace(' ', '_').replace('/', '_')), metainf)
-    print "creating word clouds"
+    print("creating word clouds")
     # normalize the scores for each class
     scores_collected /= np.max(np.abs(scores_collected), axis=0)
     # transform the collected scores into a dictionary and create word clouds
-    scores_collected_dict = {cat: dict(zip(featurenames, scores_collected[:, clf.classes_ == cat][:, 0])) for cat in clf.classes_}
+    scores_collected_dict = {cat: dict(list(zip(featurenames, scores_collected[:, clf.classes_ == cat][:, 0]))) for cat in clf.classes_}
     for cat in scores_collected_dict:
         create_wordcloud(scores_collected_dict[cat], os.path.join(subdir_wc, "%s.png" % cat), maskfiles[cat] if cat in maskfiles else None)
     return scores_collected_dict
@@ -204,13 +208,13 @@ def visualize_distinctive(textdict, doccats, subdir_wc='', maskfiles={}):
     Returns:
         relevant_words: dict with {category: {word: relevancy score}}
     """
-    print "possibly selecting subset of 10000 examples"
+    print("possibly selecting subset of 10000 examples")
     textdict, doccats, _ = select_subset(textdict, doccats, {})
-    print "get 'distinctive' words"
+    print("get 'distinctive' words")
     # this contains a dict for every category with {word: trend_score_for_this_category}
     distinctive_words = get_distinctive_words(textdict, doccats)
     # create the corresponding word clouds
-    print "creating word clouds"
+    print("creating word clouds")
     for cat in distinctive_words:
         create_wordcloud(distinctive_words[cat], os.path.join(subdir_wc, "%s.png" % cat), maskfiles[cat] if cat in maskfiles else None)
     return distinctive_words

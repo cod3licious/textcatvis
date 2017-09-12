@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy as np
 from sklearn.metrics.pairwise import linear_kernel
 from sklearn.decomposition import KernelPCA
@@ -14,7 +15,7 @@ def cluster_texts(textdict, eps=0.45, min_samples=3):
     Returns:
         doccats: dictionary with {docid: cluster_id}
     """
-    doc_ids = textdict.keys()
+    doc_ids = list(textdict.keys())
     # transform texts into length normalized kpca features
     ft = FeatureTransform(norm='max', weight=True, renorm='length', norm_num=False)
     docfeats = ft.texts2features(textdict)
