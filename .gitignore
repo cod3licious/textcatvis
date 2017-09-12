@@ -6,6 +6,7 @@
 *.csv
 *.db
 nytimes_apikey.txt
+examples/results
 dist/
 build/
 textcatvis.egg-info/
