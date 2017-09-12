@@ -1,6 +1,5 @@
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 from __future__ import division
-from builtins import str
 from builtins import range
 from past.builtins import basestring
 import re

@@ -1,4 +1,5 @@
 from __future__ import print_function
+import os
 import requests
 import matplotlib.pyplot as plt
 from nlputils.dict_utils import invert_dict0
@@ -91,26 +92,33 @@ def split_articles(textdict, doccats, date_cut):
 
 
 if __name__ == '__main__':
+    cwd = os.getcwd()
+    resdir = os.path.join(cwd, 'results')
+    if not os.path.isdir(resdir):
+        os.mkdir(resdir)
+    for dname in ['nytimes_wc_tfidf', 'nytimes_wc_distinctive', 'nytimes_wc_clf', 'nytimes_wc_distinctive_clusters']:
+        if not os.path.isdir(os.path.join(resdir, dname)):
+            os.mkdir(os.path.join(resdir, dname))
     ### experiment 1: compare inauguration week and before
     # the articles we're interested in are from the week of trumps inauguration, i.e. 1-16 until 1-22
     # and the 3 weeks before this, i.e. 2016-12-26 until 2017-1-15
     textdict, doccats = get_articles('2016-12-26', '2017-01-22')
     textdict, doccats = split_articles(textdict, doccats, '2017-01-16')
     # visualize w/o html for tfidf (to get bigram word clouds)
-    _ = visualize_tfidf(textdict, doccats, create_html=False, subdir_wc='results/nytimes_wc_tfidf',
-                        maskfiles={'current': 'maskimgs/up.png', 'old': 'maskimgs/down.png'})
+    _ = visualize_tfidf(textdict, doccats, create_html=False, subdir_wc=os.path.join(resdir, 'nytimes_wc_tfidf'),
+                        maskfiles={'current': os.path.join('maskimgs','up.png'), 'old': os.path.join('maskimgs','down.png')})
     # visualize distinctive
-    _ = visualize_distinctive(textdict, doccats, subdir_wc='results/nytimes_wc_distinctive',
-                              maskfiles={'current': 'maskimgs/up.png', 'old': 'maskimgs/down.png'})
+    _ = visualize_distinctive(textdict, doccats, subdir_wc=os.path.join(resdir, 'nytimes_wc_distinctive'),
+                              maskfiles={'current': os.path.join('maskimgs','up.png'), 'old': os.path.join('maskimgs','down.png')})
     # visualize w/o html using clf (to get bigram word clouds)
-    _ = visualize_clf(textdict, doccats, create_html=False, subdir_wc='results/nytimes_wc_clf',
-                      maskfiles={'current': 'maskimgs/up.png', 'old': 'maskimgs/down.png'})
+    _ = visualize_clf(textdict, doccats, create_html=False, subdir_wc=os.path.join(resdir, 'nytimes_wc_clf'),
+                      maskfiles={'current': os.path.join('maskimgs','up.png'), 'old': os.path.join('maskimgs','down.png')})
     # Accuracy: 0.713
     ### experiment 2: cluster articles from the inauguration week
     textdict, doccats = get_articles('2017-01-16', '2017-01-22')
     clusters = cluster_texts(textdict)
     cluster_docs = invert_dict0(clusters)
-    _ = visualize_distinctive(textdict, clusters, subdir_wc='results/nytimes_wc_distinctive_clusters')
+    _ = visualize_distinctive(textdict, clusters, subdir_wc=os.path.join(resdir, 'nytimes_wc_distinctive_clusters'))
     for c in sorted(cluster_docs, key=lambda x: len(cluster_docs[x]), reverse=True):
         print("#### %i documents in cluster %i" % (len(cluster_docs[c]), c))
         if not c == -1:

@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 from __future__ import division
 import codecs
 import re
-import os
 from PIL import Image
 import numpy as np
 import matplotlib
