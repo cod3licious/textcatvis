@@ -60,7 +60,7 @@ def create_wordcloud(ws_dict, fname=None, maskfile=None):
     # get the 160 most positive words + 40 negative words
     relwords_pos = sorted(ws_dict, key=ws_dict.get, reverse=True)[:min(160, n_pos)]
     relwords_neg = sorted(ws_dict, key=ws_dict.get)[:min(40, n_neg)]
-    words_freq = [(w, abs(ws_dict[w])) for w in relwords_pos + relwords_neg]
+    words_freq = {w: abs(ws_dict[w]) for w in relwords_pos + relwords_neg}
     # set the ws_dict to the global dict - we need this for coloring
     global word_scores_dict
     word_scores_dict = ws_dict

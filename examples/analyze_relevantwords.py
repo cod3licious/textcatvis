@@ -18,8 +18,8 @@ if __name__ == '__main__':
     if not os.path.isdir('results'):
         os.mkdir('results')
     for method in ['tfidf', 'distinctive', 'clf']:
-        if not os.path.isdir(os.path.join('results','%s_wc_%s' % (dataset, method))):
-            os.mkdir(os.path.join('results','%s_wc_%s' % (dataset, method)))
+        if not os.path.isdir(os.path.join('results', '%s_wc_%s' % (dataset, method))):
+            os.mkdir(os.path.join('results', '%s_wc_%s' % (dataset, method)))
     # load data
     print("loading data for dataset %s" % dataset)
     textdict, doccats = load_data(path_to_data)
@@ -32,13 +32,13 @@ if __name__ == '__main__':
         use_clf = False
     print("creating word clouds")
     # visualize w/o html for tfidf (to get bigram word clouds)
-    scores_tfidf = visualize_tfidf(textdict, doccats, create_html=False, subdir_wc=os.path.join('results','%s_wc_tfidf' % dataset))
+    scores_tfidf = visualize_tfidf(textdict, doccats, create_html=False, subdir_wc=os.path.join('results', '%s_wc_tfidf' % dataset))
     # visualize distinctive
-    scores_distinctive = visualize_distinctive(textdict, doccats, subdir_wc=os.path.join('results','%s_wc_distinctive' % dataset))
+    scores_distinctive = visualize_distinctive(textdict, doccats, subdir_wc=os.path.join('results', '%s_wc_distinctive' % dataset))
     # visualize w/o html using clf (to get bigram word clouds)
     if use_clf:
         # only classify if we had actual classes
-        scores_clf = visualize_clf(textdict, doccats, create_html=False, subdir_wc=os.path.join('results','%s_wc_clf' % dataset))
+        scores_clf = visualize_clf(textdict, doccats, create_html=False, subdir_wc=os.path.join('results', '%s_wc_clf' % dataset))
     print("checking example queries")
     # identify fraction of articles per category containing...
     # any stop words; mentioning the current AND former president; containing the word brain
