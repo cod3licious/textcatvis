@@ -17,6 +17,7 @@ If any of this code was helpful for your research, please consider citing it: ::
 
 
 or ::
+
     @article{horn2017discovering,
       title     = {Discovering topics in text datasets by visualizing relevant words},
       author    = {Horn, Franziska and Arras, Leila and Montavon, Gr{\'e}goire and M{\"u}ller, Klaus-Robert and Samek, Wojciech},
