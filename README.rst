@@ -9,6 +9,22 @@ This repository contains tools, which help in getting a quick overview of a text
 .. _short: http://arxiv.org/abs/1707.06100
 .. _long: http://arxiv.org/abs/1707.05261
 
+If any of this code was helpful for your research, please consider citing it: ::
+    @article{horn2017exploring,
+      title={Exploring text datasets by visualizing relevant words},
+      author={Horn, Franziska and Arras, Leila and Montavon, Gr{\'e}goire and M{\"u}ller, Klaus-Robert and Samek, Wojciech},
+      journal={arXiv preprint arXiv:1707.05261},
+      year={2017}
+    }
+
+or ::
+    @article{horn2017discovering,
+      title={Discovering topics in text datasets by visualizing relevant words},
+      author={Horn, Franziska and Arras, Leila and Montavon, Gr{\'e}goire and M{\"u}ller, Klaus-Robert and Samek, Wojciech},
+      journal={arXiv preprint arXiv:1707.06100},
+      year={2017}
+    }
+
 The code is intended for research purposes. It was programmed for Python 2.7, but should theoretically also run on newer Python 3 versions - no guarantees on this though (open an issue if you find a bug, please)!
 
 quick start
