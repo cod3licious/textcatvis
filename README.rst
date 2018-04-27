@@ -6,10 +6,6 @@ Code is here to help!
 
 This repository contains tools, which help in getting a quick overview of a text dataset by creating word clouds of the relevant words for each class or identified cluster as well as code to highlight these words in the individual texts, e.g. to better understand classifier decisions. Further details can be found in the corresponding paper (short_ and long_).
 
-.. _short: http://arxiv.org/abs/1707.06100
-.. _long: http://arxiv.org/abs/1707.05261
-
-
 If any of this code was helpful for your research, please consider citing it: ::
     @article{horn2017exploring,
       title     = {Exploring text datasets by visualizing relevant words},
@@ -25,6 +21,10 @@ or ::
       journal   = {arXiv preprint arXiv:1707.06100},
       year      = {2017}
     }
+
+.. _short: http://arxiv.org/abs/1707.06100
+.. _long: http://arxiv.org/abs/1707.05261
+
 
 The code is intended for research purposes. It was programmed for Python 2.7, but should theoretically also run on newer Python 3 versions - no guarantees on this though (open an issue if you find a bug, please)!
 
