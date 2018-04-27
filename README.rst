@@ -7,6 +7,7 @@ Code is here to help!
 This repository contains tools, which help in getting a quick overview of a text dataset by creating word clouds of the relevant words for each class or identified cluster as well as code to highlight these words in the individual texts, e.g. to better understand classifier decisions. Further details can be found in the corresponding paper (short_ and long_).
 
 If any of this code was helpful for your research, please consider citing it: ::
+
     @article{horn2017exploring,
       title     = {Exploring text datasets by visualizing relevant words},
       author    = {Horn, Franziska and Arras, Leila and Montavon, Gr{\'e}goire and M{\"u}ller, Klaus-Robert and Samek, Wojciech},
