@@ -14,6 +14,7 @@ If any of this code was helpful for your research, please consider citing it: ::
       year      = {2017}
     }
 
+
 or ::
     @article{horn2017discovering,
       title     = {Discovering topics in text datasets by visualizing relevant words},
