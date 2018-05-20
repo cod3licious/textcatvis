@@ -1,7 +1,4 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
+from __future__ import unicode_literals, division, print_function, absolute_import
 from builtins import zip
 import os
 import random
@@ -11,7 +8,7 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import LogisticRegression as logreg
 import sklearn.metrics as skmet
 from nlputils.features import FeatureTransform, features2mat
-from nlputils.dict_utils import invert_dict0, combine_dicts, select_copy
+from nlputils.dict_utils import invert_dict0, combine_dicts
 from .vis_utils import create_wordcloud, scores2html
 from .distinctive_words import get_distinctive_words
 
@@ -168,12 +165,12 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
                 # we want the scores which speak for the class - for the negative class,
                 # the sign needs to be reversed
                 scores *= -1.
-            scores_dict = dict(list(zip(featurenames, scores)))
+            scores_dict = dict(zip(featurenames, scores))
             metainf += 'True Class: %s\n' % doccats[tid]
             metainf += 'Predicted Class: %s  (Score: %.4f)' % (predictions_labels[i], predictions[i])
             scores_collected[:, clf.classes_ == doccats[tid]] += np.array([scores]).T
         else:
-            scores_dict = dict(list(zip(featurenames, scores[:, clf.classes_ == predictions_labels[i]][:, 0])))
+            scores_dict = dict(zip(featurenames, scores[:, clf.classes_ == predictions_labels[i]][:, 0]))
             metainf += 'True Class: %s  (Score: %.4f)\n' % (doccats[tid], predictions[i, clf.classes_ == doccats[tid]][0])
             metainf += 'Predicted Class: %s  (Score: %.4f)' % (predictions_labels[i], predictions[i, clf.classes_ == predictions_labels[i]][0])
             scores_collected[:, clf.classes_ == doccats[tid]] += scores[:, clf.classes_ == doccats[tid]]
@@ -190,7 +187,7 @@ def visualize_clf(textdict, doccats, create_html=True, visids=[], subdir_html=''
     # normalize the scores for each class
     scores_collected /= np.max(np.abs(scores_collected), axis=0)
     # transform the collected scores into a dictionary and create word clouds
-    scores_collected_dict = {cat: dict(list(zip(featurenames, scores_collected[:, clf.classes_ == cat][:, 0]))) for cat in clf.classes_}
+    scores_collected_dict = {cat: dict(zip(featurenames, scores_collected[:, clf.classes_ == cat][:, 0])) for cat in clf.classes_}
     for cat in scores_collected_dict:
         create_wordcloud(scores_collected_dict[cat], os.path.join(subdir_wc, "%s.png" % cat), maskfiles[cat] if cat in maskfiles else None)
     return scores_collected_dict

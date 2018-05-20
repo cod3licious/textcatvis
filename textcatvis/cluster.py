@@ -1,4 +1,4 @@
-from __future__ import division
+from __future__ import unicode_literals, division, print_function, absolute_import
 import numpy as np
 from sklearn.metrics.pairwise import linear_kernel
 from sklearn.decomposition import KernelPCA

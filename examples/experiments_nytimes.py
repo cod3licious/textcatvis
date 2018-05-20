@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import unicode_literals, division, print_function, absolute_import
 import os
 import requests
 import matplotlib.pyplot as plt
@@ -127,5 +127,5 @@ if __name__ == '__main__':
     ### experiment 3: check the occurrences of some specific words
     textdict, doccats = get_articles('2016-12-26', '2017-01-22')
     queries = [check_or('and', 'or', 'the'), 'tuesday', 'trump', 'obama', check_and('italy', 'avalanche')]
-    vis_occurrences(check_occurrences(textdict, doccats, queries), False, ["or:('and', 'or', 'the')", 'trump', 'obama', 'tuesday', "and:('italy', 'avalanche')"])
+    vis_occurrences(check_occurrences(textdict, doccats, queries), False)
     plt.show()

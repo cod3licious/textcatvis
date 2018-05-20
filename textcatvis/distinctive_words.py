@@ -1,9 +1,7 @@
-from __future__ import division
-from __future__ import print_function
+from __future__ import unicode_literals, division, print_function, absolute_import
 import sys
-import re
 import numpy as np
-from nlputils.dict_utils import invert_dict0, invert_dict1, invert_dict2
+from nlputils.dict_utils import invert_dict0, invert_dict2
 from nlputils.features import FeatureTransform
 
 
@@ -58,7 +56,7 @@ def get_distinctive_words(textdict, doccats, distinctive_fun=distinctive_fun_quo
     docfeats = ft.texts2features(textdict)
     #docfeats = {did: set(docfeats[did].keys()) for did in docfeats}
     # invert this dict to get for every word the documents it occurs in
-    # word_dids = {word: set(dids) for word, dids in invert_dict1(docfeats).iteritems()}
+    # word_dids = {word: set(dids) for word, dids in invert_dict1(docfeats).items()}
     # invert the doccats dict to get for every category a list of documents belonging to it
     cats_dids = {cat: set(dids) for cat, dids in invert_dict0(doccats).items()}
     # get a list of all words

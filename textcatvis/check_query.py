@@ -1,7 +1,5 @@
-from __future__ import print_function, unicode_literals
-from __future__ import division
-from builtins import range
-from past.builtins import basestring
+from __future__ import unicode_literals, division, print_function, absolute_import
+from builtins import range, str
 import re
 import numpy as np
 import matplotlib.pyplot as plt
@@ -45,7 +43,7 @@ def check_occurrences(textdict, doccats, queries):
     results = {}
     for q in queries:
         # convert regular string queries into functions as well
-        if isinstance(q, basestring):
+        if isinstance(q, str):
             q = check_in(q)
         # split in name to store results and query itself
         q, str_q = q

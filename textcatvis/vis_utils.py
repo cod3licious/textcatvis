@@ -1,5 +1,4 @@
-from __future__ import unicode_literals
-from __future__ import division
+from __future__ import unicode_literals, division, print_function, absolute_import
 import codecs
 import re
 from PIL import Image
@@ -106,8 +105,8 @@ def scores2html(text, scores, fname='testfile', metainf='', highlight_oov=False)
     cmap_neg = get_cmap('Reds')
     norm = matplotlib.colors.Normalize(0., 1.)
 
-    if not isinstance(text, unicode):
-        text = text.decode("utf-8")
+    # if not isinstance(text, unicode):
+    #     text = text.decode("utf-8")
 
     # normalize score by absolute max value
     if isinstance(scores, dict):
